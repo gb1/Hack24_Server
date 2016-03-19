@@ -108,12 +108,14 @@ app.post('/messages/create', function(req,res) {
 		console.dir(message);
 		res.redirect('/messages/new');
 	});
+
+	pusher.trigger(article_id, 'new_comment', {
+		message
+	});
 });
 
 
 // Articles
-
-
 
 app.get('/article/', function(req, res) {
 
