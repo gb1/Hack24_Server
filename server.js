@@ -110,21 +110,25 @@ app.post('/messages/create', function(req,res) {
 		res.redirect('/messages/new');
 	});
 
-	pusher.trigger('chat', 'new_comment', {
-		message
-	});
+	pusher.trigger('chat', 'new_comment', message);
 });
 
 
 // Articles
 
 app.get('/article/', function(req, res) {
-
 	Message.find({ article_id:"Trump trumps a trumpet in trump town." }, function(err,messages) {
 		if (err) return console.dir(err);
 		console.log(messages);
 	})});
 
+
+app.get('/articles/:id', function(req,res) {
+	Article.findbyId(id, function(err, article) {
+		if (err) return console.error(err);
+		res.render('articles/show', { article: article });
+	});
+});
 
 app.listen(3000, function() {
 	console.log("Launching the loop");

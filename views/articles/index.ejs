@@ -8,7 +8,7 @@
 		<% for (var i = 0; i < articles.length; i++ ) { %>
 		<div>
 			<img src=<%= articles[i].banner %>>
-			<h1><%= articles[i].header %></h1>
+			<a href=<%= "http://localhost:3000/articles/" + articles[i].id%>><h1><%= articles[i].header %></h1></a>
 			<p><%= articles[i].publish_datetime %></p>
 			<p><%= articles[i].url %></p>
 			<p><%= articles[i].summary %></p>
