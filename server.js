@@ -5,6 +5,7 @@ var faker = require('faker');
 var express = require('express');
 var bodyParser = require('body-parser');
 var parseString = require('xml2js').parseString;
+var http = require('http');
 
 var db = mongoose.connect('mongodb://admin:admin@ds037165.mlab.com:37165/intheloop');
 
@@ -20,13 +21,14 @@ app.set('view engine', 'ejs');
 // Use body parser to get data from the user.
 app.use(bodyParser());
 
+
 // Pusher instance
 
 var pusher = new Pusher({
-    appId: '189125',
-    key: '740d0f36323febd6a8c3',
-    secret: 'a259a17cb781b098ed62',
-    encrypted: true
+	appId: '189125',
+	key: '740d0f36323febd6a8c3',
+	secret: 'a259a17cb781b098ed62',
+	encrypted: true
 });
 
 
@@ -86,13 +88,14 @@ app.get('/messages', function(req,res) {
 		if (err) console.error(err);
 		console.log("Found a whole bunch of messages.")
 		res.send({ "messages" : messages });
-	});
+	}).sort({created_at:-1});
 });
 
 app.get('/messages/new', function(req, res) {
 	res.render('messages/new');
 });
 
+// Posts a new message to the channel
 app.post('/messages/create', function(req,res) {
 	var message = new Message({
 		user_id: faker.fake('{{name.firstName}} {{name.lastName}}'),
@@ -106,24 +109,21 @@ app.post('/messages/create', function(req,res) {
 		console.dir(message);
 		res.redirect('/messages/new');
 	});
+
+	pusher.trigger('chat', 'new_comment', {
+		message
+	});
 });
+
 
 // Articles
-
-// Parse XML feed to Json
-
-app.get('/evening_post', function(req,res) {
-	var rss = "http://www.nottinghampost.com/all-content.rss";
-});
-
 
 app.get('/article/', function(req, res) {
 
 	Message.find({ article_id:"Trump trumps a trumpet in trump town." }, function(err,messages) {
 		if (err) return console.dir(err);
 		console.log(messages);
-})});
-
+	})});
 
 
 app.listen(3000, function() {
@@ -131,5 +131,5 @@ app.listen(3000, function() {
 });
 
 pusher.trigger('test_channel', 'my_event', {
-    "message": "testing the connection"
+	"message": "testing the connection"
 });
