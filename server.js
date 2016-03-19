@@ -6,6 +6,7 @@ var faker = require('faker');
 var express = require('express');
 var bodyParser = require('body-parser');
 var parseString = require('xml2js').parseString;
+var http = require('http');
 
 var db = mongoose.connect('mongodb://admin:admin@ds037165.mlab.com:37165/intheloop');
 
@@ -17,6 +18,7 @@ app.set('view engine', 'ejs');
 
 // Use body parser to get data from the user.
 app.use(bodyParser());
+
 
 // Pusher instance
 
@@ -57,14 +59,9 @@ app.post('/messages/create', function(req,res) {
 	});
 });
 
+
 // Articles
 
-// Parse XML feed to Json
-
-app.get('/evening_post', function(req,res) {
-	var rss = "http://www.nottinghampost.com/all-content.rss";
-	()
-});
 
 app.get('/article/', function(req, res) {
 
@@ -72,7 +69,6 @@ app.get('/article/', function(req, res) {
 		if (err) return console.dir(err);
 		console.log(messages);
 })});
-
 
 
 app.listen(3000, function() {
