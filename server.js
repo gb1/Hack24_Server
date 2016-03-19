@@ -63,7 +63,6 @@ app.post('/messages/create', function(req,res) {
 
 app.get('/evening_post', function(req,res) {
 	var rss = "http://www.nottinghampost.com/all-content.rss";
-	()
 });
 
 app.get('/article/', function(req, res) {
