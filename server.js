@@ -12,15 +12,15 @@ var pusher = new Pusher({
     encrypted: true
 });
 
-var post = new Message({
+var message = new Message({
 	user_id: "Hungry Cat", // Need to change this to the User ID once the user model is created
 	body: "Here's the first message",
 	article_id: "This is a story all about how my life go twisted upside down."
 });
 
-post.save(function(err, post) {
+message.save(function(err, message) {
 	if (err) return console.error(err);
-	console.dir(post);
+	console.dir(message);
 })
 
 pusher.trigger('test_channel', 'my_event', {
