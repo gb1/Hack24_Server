@@ -1,4 +1,5 @@
 var Pusher = require('pusher');
+var mongoose = require('mongoose');
 
 var pusher = new Pusher({
     appId: '189125',
@@ -8,5 +9,5 @@ var pusher = new Pusher({
 });
 
 pusher.trigger('test_channel', 'my_event', {
-    "message": "hello worldhkjhgkhjghjghj"
+    "message": "testing the connection"
 });
