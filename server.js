@@ -110,6 +110,7 @@ app.post('/messages/create', function(req,res) {
 	});
 
 	pusher.trigger('chat', 'new_comment', message);
+	res.sendStatus(200);
 });
 
 
@@ -123,7 +124,7 @@ app.get('/article/', function(req, res) {
 
 
 app.get('/articles/:id', function(req,res) {
-	Article.findbyId(id, function(err, article) {
+	Article.findById(req.params.id, function(err, article) {
 		if (err) return console.error(err);
 		res.render('articles/show', { article: article });
 	});
