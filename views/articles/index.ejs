@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= title %></title>
+	</head>
+	
+	<body>
+		<% for (var i = 0; i < articles.length; i++ ) { %>
+		<div>
+			<img src=<%= articles[i].banner %>>
+			<h1><%= articles[i].header %></h1>
+			<p><%= articles[i].publish_datetime %></p>
+			<p><%= articles[i].url %></p>
+			<p><%= articles[i].summary %></p>
+		</div>
+		<% } %>
+	</body>
+</html>

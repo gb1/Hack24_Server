@@ -1,0 +1,18 @@
+.chatbox {
+	width:100%;
+	position: fixed;
+	bottom: 0;
+}
+
+.header-nav {
+	background-color: #47BD9F;
+}
+
+input {}
+
+button {
+	background-image: linear-gradient(#47BD9F,#0F7390);
+	color: white;
+	text-shadow: 1px 0 rgba(0,0,0,.4);
+	padding: 0.8em;
+}

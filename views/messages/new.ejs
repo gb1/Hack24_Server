@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>New Message</title>
+		<link rel="stylesheet" type="text/css" href=".././static/css/style.css">
+	</head>
+	
+	<body>
+
+		<div class="header-nav">
+			<h1>In the Loop</h1>
+		</div>
+		
+		<div class="chatbox">
+			<form role="form" action="/messages/create" method="post">
+				<input type="text" name="message[body]">
+				</input>
+				<button type="submit">POST</button>
+			</form>
+		</div>
+		<a href="/messages">Read all messages</a>
+	</body>
+</html>
