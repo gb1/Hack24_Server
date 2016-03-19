@@ -88,13 +88,14 @@ app.get('/messages', function(req,res) {
 		if (err) console.error(err);
 		console.log("Found a whole bunch of messages.")
 		res.send({ "messages" : messages });
-	});
+	}).sort({created_at:-1});
 });
 
 app.get('/messages/new', function(req, res) {
 	res.render('messages/new');
 });
 
+// Posts a new message to the channel
 app.post('/messages/create', function(req,res) {
 	var message = new Message({
 		user_id: faker.fake('{{name.firstName}} {{name.lastName}}'),
@@ -109,7 +110,7 @@ app.post('/messages/create', function(req,res) {
 		res.redirect('/messages/new');
 	});
 
-	pusher.trigger(article_id, 'new_comment', {
+	pusher.trigger('chat', 'new_comment', {
 		message
 	});
 });
