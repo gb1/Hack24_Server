@@ -7,13 +7,20 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gb1/Hack24_Server"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.0",
+    "ejs": "^2.4.1",
     "express": "^4.13.4",
     "faker": "^3.0.1",
     "mongoose": "^4.4.8",
-    "pusher": "^1.2.1"
+    "pusher": "^1.2.1",
+    "xml2js": "^0.4.16"
   }
 }
