@@ -1,5 +1,8 @@
 var Pusher = require('pusher');
 var mongoose = require('mongoose');
+var Message = require('./models/Message');
+
+mongoose.connect('mongodb://admin:admin@ds037165.mlab.com:37165/intheloop');
 
 var pusher = new Pusher({
     appId: '189125',

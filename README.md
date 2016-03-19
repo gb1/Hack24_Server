@@ -28,11 +28,14 @@ Describes the article in the reader
 
 
 #### Loop
+Describes a Loop connected to an article
+
 + id
 + location
 
 
 #### Message
+Describe a message posted by a user.
 
 + id
 + user_id
@@ -42,12 +45,9 @@ Describes the article in the reader
 
 
 #### User
+Describes a user
 
 + name
 + id
 + lat
 + lon
-
-
-
-
