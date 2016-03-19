@@ -1,7 +1,6 @@
 var Pusher = require('pusher');
 var path = require('path');
 var mongoose = require('mongoose');
-var Message = require('./models/Message');
 var faker = require('faker');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -11,6 +10,9 @@ var http = require('http');
 var db = mongoose.connect('mongodb://admin:admin@ds037165.mlab.com:37165/intheloop');
 
 var app = express();
+
+var Message = require('./models/Message');
+var Article = require('./models/Article');
 
 // Set the views engine to ejs and the default views directory
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +31,55 @@ var pusher = new Pusher({
     encrypted: true
 });
 
+
+// Articles
+
+// Generate some random articles
+
+app.get('/articles', function(req, res) {
+	var images = [
+		faker.image.business(),
+		faker.image.cats(),
+		faker.image.city(),
+		faker.image.nightlife(),
+		faker.image.fashion(),
+		faker.image.technics(),
+		faker.image.sports(),
+		faker.image.people()
+	]
+
+	for (var i = 0; i < 100; i++) {
+		var image = images[Math.floor(Math.random()*images.length)]
+		var article = new Article({
+			banner: image,
+			header: faker.fake("{{lorem.sentence}}"),
+			url: faker.fake("{{internet.url}}"),
+			summary: faker.lorem.paragraph(),
+			publish_datetime: faker.date.recent(),
+		});
+
+		article.save(function(err, article) {
+			if (err) return console.error(error);
+			console.dir(article);
+		});
+	};
+
+	res.redirect('/article');
+});
+
+app.get('/article', function(req, res) {
+	Article.find(function(err,articles) {
+		if (err) console.error(err);
+		res.render('articles/index', { "title": "News Stories", "articles": articles });
+	});
+});
+
+app.get('/articles/feed', function(req,res) {
+	Article.find(function(err,articles) {
+		if (err) console.error(err);
+		res.send({"articles": articles });
+	});
+});
 
 // Messages
 
@@ -61,6 +112,7 @@ app.post('/messages/create', function(req,res) {
 
 
 // Articles
+
 
 
 app.get('/article/', function(req, res) {
