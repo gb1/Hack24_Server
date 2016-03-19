@@ -107,7 +107,6 @@ app.post('/messages/create', function(req,res) {
 	message.save(function(err, message) {
 		if (err) return console.error(err);
 		console.dir(message);
-		res.redirect('/messages/new');
 	});
 
 	pusher.trigger('chat', 'new_comment', message);
