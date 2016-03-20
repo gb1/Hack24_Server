@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Message = require('../models/Message');
 
 var Article = new Schema({
 	banner: String,
@@ -8,7 +7,6 @@ var Article = new Schema({
 	url: String,
 	summary: String,
 	publish_datetime: Date,
-	messages: [ Message ]
 });
 
 var Article = mongoose.model('Article', Article);

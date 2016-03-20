@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var article_id = Schema.ObjectId;
 
 var Message = new Schema({
+	article_id: String,
 	user_id: String,
-	article_id: article_id,
 	created_at: Date,
 	body: String,
 });

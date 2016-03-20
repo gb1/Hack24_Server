@@ -32,11 +32,63 @@ var pusher = new Pusher({
 });
 
 
+
+// Messages
+app.get('/messages/:article_id', function(req,res) {
+	Message.find( { article_id: req.params.article_id } , function(err, messages) {
+		if (err) console.error(err);
+		console.log("Found a whole bunch of messages.")
+		res.send({ "messages" : messages });
+	}).sort({created_at:-1});
+});
+
+app.get('/messages/new', function(req, res) {
+	res.render('messages/new');
+});
+
+// Posts a new message to the channel
+app.post('/messages/create', function(req,res) {
+	var message = new Message({
+		user_id: faker.fake('{{name.firstName}} {{name.lastName}}'),
+		body: req.body.message.body,
+		article_id: req.body.message.article_id,
+		created_at: Date.now()
+	});
+
+	message.save(function(err, message) {
+		if (err) return console.error(err);
+		console.dir(message);
+	});
+
+	pusher.trigger('chat', 'new_comment', message);
+	res.sendStatus(200);
+});
+
+
 // Articles
+
+// Find all of them and display the index
+
+app.get('/articles/', function(req, res) {
+	Article.find(function(err,articles) {
+		if (err) console.error(err);
+		res.render('articles/index', { "title": "News Stories", "articles": articles });
+	});
+});
+
+// Find a specific article by ID
+
+app.get('/articles/:id', function(req,res) {
+	Article.findById(req.params.id, function(err, article) {
+		if (err) return console.error(err);
+		res.render('articles/show', { article: article });
+	});
+});
+
 
 // Generate some random articles
 
-app.get('/articles', function(req, res) {
+app.get('/articles/generate', function(req, res) {
 	var images = [
 		faker.image.business(),
 		faker.image.cats(),
@@ -67,12 +119,7 @@ app.get('/articles', function(req, res) {
 	res.redirect('/article');
 });
 
-app.get('/article', function(req, res) {
-	Article.find(function(err,articles) {
-		if (err) console.error(err);
-		res.render('articles/index', { "title": "News Stories", "articles": articles });
-	});
-});
+// A JSON feed of articles
 
 app.get('/articles/feed', function(req,res) {
 	Article.find(function(err,articles) {
@@ -81,54 +128,6 @@ app.get('/articles/feed', function(req,res) {
 	});
 });
 
-// Messages
-
-app.get('/messages', function(req,res) {
-	Message.find(function(err, messages) {
-		if (err) console.error(err);
-		console.log("Found a whole bunch of messages.")
-		res.send({ "messages" : messages });
-	}).sort({created_at:-1});
-});
-
-app.get('/messages/new', function(req, res) {
-	res.render('messages/new');
-});
-
-// Posts a new message to the channel
-app.post('/messages/create', function(req,res) {
-	var message = new Message({
-		user_id: faker.fake('{{name.firstName}} {{name.lastName}}'),
-		body: req.body.message.body,
-		article_id: "Trump trumps a trumpet in trump town.",
-		created_at: Date.now()
-	});
-
-	message.save(function(err, message) {
-		if (err) return console.error(err);
-		console.dir(message);
-	});
-
-	pusher.trigger('chat', 'new_comment', message);
-	res.sendStatus(200);
-});
-
-
-// Articles
-
-app.get('/article/', function(req, res) {
-	Message.find({ article_id:"Trump trumps a trumpet in trump town." }, function(err,messages) {
-		if (err) return console.dir(err);
-		console.log(messages);
-})});
-
-
-app.get('/articles/:id', function(req,res) {
-	Article.findById(req.params.id, function(err, article) {
-		if (err) return console.error(err);
-		res.render('articles/show', { article: article });
-	});
-});
 
 app.listen(3000, function() {
 	console.log("Launching the loop");

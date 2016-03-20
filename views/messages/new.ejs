@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>New Message</title>
-		<link rel="stylesheet" type="text/css" href=".././static/css/style.css">
+		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	
 	<body>
@@ -13,8 +13,8 @@
 		
 		<div class="chatbox">
 			<form role="form" action="/messages/create" method="post">
-				<input type="text" name="message[body]">
-				</input>
+				<input type="text" name="message[body]"></input>
+				<input type='text' name="message[article_id]"></input>
 				<button type="submit">POST</button>
 			</form>
 		</div>
