@@ -65,6 +65,39 @@ app.post('/messages/create', function(req,res) {
 });
 
 
+
+// Messages
+app.get('/messages/:article_id', function(req,res) {
+	Message.find( { article_id: req.params.article_id } , function(err, messages) {
+		if (err) console.error(err);
+		console.log("Found a whole bunch of messages.")
+		res.send({ "messages" : messages });
+	}).sort({created_at:-1});
+});
+
+app.get('/messages/new', function(req, res) {
+	res.render('messages/new');
+});
+
+// Posts a new message to the channel
+app.post('/messages/create', function(req,res) {
+	var message = new Message({
+		user_id: faker.fake('{{name.firstName}} {{name.lastName}}'),
+		body: req.body.message.body,
+		article_id: req.body.message.article_id,
+		created_at: Date.now()
+	});
+
+	message.save(function(err, message) {
+		if (err) return console.error(err);
+		console.dir(message);
+	});
+
+	pusher.trigger('chat', 'new_comment', message);
+	res.sendStatus(200);
+});
+
+
 // Articles
 
 // Find all of them and display the index
