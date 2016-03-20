@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><%= title %></title>
+		<title><%= article.header %></title>
 		<link rel="stylesheet" type="text/css" href=".././static/css/style.css">
 	</head>
 	
 	<body>
 		<div>
-		<img src=<%= articles[i].banner %>>
-			<h1><%= articles[i].header %></h1>
-			<p><%= articles[i].publish_datetime %></p>
-			<p><%= articles[i].url %></p>
-			<p><%= articles[i].summary %></p>
+		<img src=<%= article.banner %>>
+			<h1><%= article.header %></h1>
+			<p><%= article.publish_datetime %></p>
+			<p><%= article.url %></p>
+			<p><%= article.summary %></p>
 		</div>
 
 		<div class="chatbox">
